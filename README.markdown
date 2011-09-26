@@ -17,15 +17,14 @@ Input file is a simple text file, with the following structure:
 * Common and general layout of the presentation
 * List of slides
 
-Each slide is introduced by a set of meta-tags (!SLIDE) and can have 
+Each slide is introduced by a set of meta-tags (@slide) and can have 
 dedicated styles, transitions, background.
 
 The following styles are implemented:
 
-* transparent
-* centercontent
-* centertext
-* out
+* transparent: transparent slide
+* centercontent: center content of the slide
+* centertext: center ext on the slide
 * segue
 * image
 * blueprint
