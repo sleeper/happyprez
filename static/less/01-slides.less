@@ -51,6 +51,32 @@
 
 /* ============= Real stuff ==================*/
 
+/* =============== FONTS =====================*/
+@font-face {
+  font-family: 'Yanone Kaffeesatz';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/YanoneKaffeesatz-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Permanent Marker';
+  font-style: normal;
+  font-weight: normal;
+  src: local('../fonts/Permanent Marker.woff'), local('../fonts/PermanentMarker.woff'), url('../fonts/PermanentMarker.woff') format('woff');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('../fonts/Ubuntu-Regular.woff'), url('../fonts/Ubuntu-Regular.woff') format('woff');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('../fonts/Lato-Regular.woff'), url('../fonts/Lato-Regular.woff') format('woff');
+}
+
 body, html, #stage {
   width: 100%;
   height: 100%;
@@ -166,7 +192,13 @@ section {
 
 h1, h2 {
   font-size: 120%;
-  font-family: 'Permanent Marker';
+/*  font-family: 'Permanent Marker';*/
+  font-family: 'Yanone Kaffeesatz';
   text-shadow: black 0 2px 5px;
+}
+
+.title h1 {
+  font-size: 500%;
+  text-align: center;
 }
 

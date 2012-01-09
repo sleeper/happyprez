@@ -20,6 +20,7 @@ namespace :less do
     File.open("#{File.dirname(__FILE__)}/static/css/slides.css", 'w+') do |css|
       Dir.foreach("#{File.dirname(__FILE__)}/static/less/") do |cf|
         if /\.less$/ =~ cf
+          puts "Treating #{cf} ..."
           file = File.join(File.dirname(__FILE__),"static","less", cf)
           oc = `lessc #{file}`
           css.puts oc
