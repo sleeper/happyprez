@@ -34,6 +34,9 @@ body, html, #stage {
 body, html {
   background-color: #fff;
 }
+#content {
+  display: none;
+}
 #stage {
   background-color: transparent;
   margin: 0;
@@ -73,7 +76,10 @@ body {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 40px;
-  background: #fff;
+  /*  background: #fff; */
+
+  background: #a7dbd8;
+  color: #000000;
   padding: 20px 40px;
   -webkit-transition: -webkit-transform 0.8s ease-in-out, opacity 1.2s ease-in-out;
   -moz-transition: -moz-transform 0.8s ease-in-out, opacity 1.2s ease-in-out;
@@ -172,15 +178,24 @@ h1, h2 {
   /*  font-family: 'Permanent Marker';*/
 
   font-family: 'Yanone Kaffeesatz';
-  text-shadow: black 0 2px 5px;
 }
 .title h1 {
   font-size: 500%;
+  text-shadow: black 0 2px 5px;
   text-align: center;
-  vertical-align: center;
 }
-.title section {
-  font-family: 'YanoneKaffeesatz';
+.title .author {
+  font-family: 'Ubuntu';
   text-align: right;
   margin-top: 5em;
+  font-style: italic;
+}
+.small {
+  font-size: 20%;
+}
+.huge {
+  font-size: 150%;
+}
+#me {
+  float: left;
 }

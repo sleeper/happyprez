@@ -1,6 +1,10 @@
 @stage-width: 1150px;
 @stage-height: 675px;
 
+@slide-color: #000;
+@slide-background: #A7DBD8;
+
+
 .box-sizing (@type: border-box) {
   -webkit-box-sizing: @type;
   -moz-box-sizing: @type;
@@ -88,6 +92,9 @@ body, html {
   background-color: #fff;
 }
 
+#content {
+  display: none;
+}
 #stage {
   background-color: transparent;
   margin: 0;
@@ -116,7 +123,9 @@ body {
   position: absolute;
   .box-sizing;
   border-radius: 40px;
-  background: #fff;
+/*  background: #fff; */
+  background: @slide-background;
+  color: @slide-color;
   padding: 20px 40px;
   -webkit-transition: -webkit-transform 0.8s ease-in-out, opacity 1.2s ease-in-out;
   -moz-transition: -moz-transform 0.8s ease-in-out, opacity 1.2s ease-in-out;
@@ -194,11 +203,20 @@ h1, h2 {
   font-size: 120%;
 /*  font-family: 'Permanent Marker';*/
   font-family: 'Yanone Kaffeesatz';
-  text-shadow: black 0 2px 5px;
 }
 
-.title h1 {
-  font-size: 500%;
-  text-align: center;
+.title {
+  h1 {
+    font-size: 500%;
+    text-shadow: black 0 2px 5px;
+    text-align: center;
+  }
+
+  .author {
+    font-family: 'Ubuntu';
+    text-align: right;
+    margin-top: 5em;
+    font-style: italic;
+    }
 }
 
