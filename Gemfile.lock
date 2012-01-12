@@ -5,12 +5,21 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.2.0)
+    commonjs (0.2.0)
+      therubyracer (~> 0.9.9)
     execjs (1.2.13)
       multi_json (~> 1.0)
+    less (2.0.8)
+      commonjs (~> 0.2.0)
+      therubyracer (~> 0.9.9)
+    libv8 (3.3.10.4)
     multi_json (1.0.4)
+    therubyracer (0.9.9)
+      libv8 (~> 3.3.10)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   coffee-script
+  less
