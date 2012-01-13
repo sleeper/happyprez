@@ -1,35 +1,47 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8" />
     <title> Goliath ... a tiny GIANT</title>
     <link href="../static/css/slides.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div id="content" class="hidden">
-      <div class="slide title current">
+      <div class="slide title current centercontents">
         <h1>Goliath ... a <span class="small">tiny</span> <span class="huge">GIANT</span></h1>
           <section class="author">
           F. Ros @ Riviera.rb
           </section>
      </div>
       <div class="slide">
-        <section>
+        <section class="hcenter">
         <img id="me" src="fred2.png" alt="Frederick Ros">
-        <div>
+        <div id="me-contact">
         <h1>Frederick Ros</h1>
         <p>Senior Manager, aMaDEUS</p>
         <p>Dev addict</p>
-        <p><img src="twitter.png"/>&nbsp;<a href="http://twitter.com/#!/sl33p3r">@sl33p3r</a></p>
-        <p><img src="gplus.png"/>&nbsp;<a href="https://plus.google.com/112360515366365281857">+Frederick Ros</a></p>
+        <p><img id="twitter" src="twitter.png" alt="twitter"/><a href="http://twitter.com/#!/sl33p3r">@sl33p3r</a></p>
+        <p><img id="gplus" src="gplus.png"alt="google+"/><a href="https://plus.google.com/112360515366365281857">+Frederick Ros</a></p>
       </div>
         </section>
       </div>
 
-      <div class="slide">
-        <h1>Issue with traditional web servers</h1>
+      <div class="slide vcenter">
+        <h1>The IO issue</h1>
         <section>
-        Borring ....
+        <ul id="io">
+          <li><div>L1-cache</div> <div>3 cycles</div></li>
+          <li><div>L2-cache</div> <div>14 cycles</div></li>
+          <li><div>RAM</div> <div>250 cycles</div></li>
+          <li><div>Disk</div> <div class="highlight">41 000 000 cycles</div></li>
+          <li><div>Network</div> <div class="highlight">240 000 000 cycles</div></li>
+        </ul>
         </section>
+      </div>
+
+      <div class="slide centercontents">
+        <h1>Traditional web servers</h1>
+        <img alt="IO jam" src="io.jpg"/>
       </div>
       <div class="slide">
         <h1>Threading issues ...</h1>

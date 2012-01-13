@@ -18,12 +18,14 @@ namespace :less do
   desc "compile less"
   task :compile do
     File.open("#{File.dirname(__FILE__)}/static/css/slides.css", 'w+') do |css|
-      Dir.foreach("#{File.dirname(__FILE__)}/static/less/") do |cf|
-        if /\.less$/ =~ cf
-          puts "Treating #{cf} ..."
-          file = File.join(File.dirname(__FILE__),"static","less", cf)
-          oc = `lessc #{file}`
-          css.puts oc
+      Dir.chdir("#{File.dirname(__FILE__)}/static/less/") do
+        Dir.foreach(".") do |cf|
+          if /^\d\d.+\.less$/ =~ cf
+            puts "Treating #{cf} ..."
+            file = File.join(File.dirname(__FILE__),"static","less", cf)
+            oc = `lessc #{file}`
+            css.puts oc
+          end
         end
       end
     end

@@ -1,3 +1,9 @@
+@import "macros.less";
+
+h1 {
+  text-align: center;
+}
+
 .small {
   font-size: 20%;
 }
@@ -5,11 +11,59 @@
 .huge {
   font-size: 150%;
 }
- #me {
-  float: left;
-  margin-right: 1em;
+
+#me-contact {
+  padding-left: 1em;
 }
  #twitter, #gplus {
   vertical-align: middle;
 }
 
+a:link, a:visited, a:hover {
+  text-decoration: none;
+}
+
+#io {
+  width: 75%;
+  list-style-type: none;
+  background-color: #E0E4CC;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  border-radius: 15px;
+  margin: 0 auto;
+
+  li {
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    
+    div:first-child {
+      -webkit-box-flex: 1;
+    }
+    div:last-child {
+      margin-right: 1em;
+    }
+  }
+}
+
+.hcenter {
+  .display-box;
+  .box-orient(horizontal);
+  .box-pack(center);
+  .box-align(center);
+  *:last-child { -webkit-box-flex: 1; }
+}
+
+.vcenter {
+  .display-box;
+  .box-orient(vertical);
+  .box-pack(center);
+/*  .box-align(center); */
+  & > * { -webkit-box-flex: 1; }
+
+}
+
+#test {
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+
+}

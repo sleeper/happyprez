@@ -3,55 +3,9 @@
 
 @slide-color: #000;
 @slide-background: #A7DBD8;
+@highlight-color: #F38630;
 
-
-.box-sizing (@type: border-box) {
-  -webkit-box-sizing: @type;
-  -moz-box-sizing: @type;
-  box-sizing: @type;
-}
-
-.box-orient(@val: horizontal) {
-  -webkit-box-orient: @val;
-  -moz-box-orient: @val;
-  -o-box-orient: @val;
-  box-orient: @val;
-}
-
-.display-box() {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -o-box;
-  display: -ms-box;
-  display: box;
-}
-
-.box-pack(@val: center) {
-  -webkit-box-pack: @val;
-  -moz-box-pack: @val;
-  -o-box-pack: @val;
-  box-pack: @val;
-}
-
-.box-align(@val: center) {
-  -webkit-box-align: @val;
-  -moz-box-align: @val;
-  -o-box-align: @val;
-  box-align: @val;
-}
-
-.transition(@val: none) {
-  -webkit-transition: @val;
-  -moz-transition: @val;
-  transition: @val;
-}
-
-.transform(@val: none) {
-  -webkit-transform: @val;
-  -moz-transform: @val;
-  -o-transform: @val;
-  transform: @val;
-}
+@import "macros.less";
 
 /* ============= Real stuff ==================*/
 
@@ -123,7 +77,6 @@ body {
   position: absolute;
   .box-sizing;
   border-radius: 40px;
-/*  background: #fff; */
   background: @slide-background;
   color: @slide-color;
   padding: 20px 40px;
@@ -162,11 +115,10 @@ body {
 
 .slide {
   .box-orient(vertical);
-  padding-top: 30px;
   overflow: hidden;
 
   > section {
-    max-width: 85%;
+    max-width: 90%;
     margin: 20px 0;
   }
 
@@ -200,9 +152,9 @@ section {
 }
 
 h1, h2 {
-  font-size: 120%;
-/*  font-family: 'Permanent Marker';*/
+  font-size: 150%;
   font-family: 'Yanone Kaffeesatz';
+  margin-top: 0;
 }
 
 .title {
@@ -220,3 +172,11 @@ h1, h2 {
     }
 }
 
+.highlight {
+  display: inline-block;
+  padding: 3px 5px;
+  border-radius: 5px;
+  color: #fff;
+  background: @highlight-color;
+  .text-shadow(0 1px 4px #000);
+}
