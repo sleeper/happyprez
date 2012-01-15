@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title> Goliath ... a tiny GIANT</title>
     <link href="../static/css/slides.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../static/js/highlight/styles/solarized_light.css">
   </head>
   <body>
     <div id="content" class="hidden">
@@ -44,27 +45,107 @@
         <img alt="IO jam" src="io.jpg"/>
       </div>
       <div class="slide">
-        <h1>Threading issues ...</h1>
+        <h1>Enters the Reactor</h1>
         <section>
-        Gimme a rope !
+        <p>Single threaded while loop.</p>
+        <p>Your code reacts to incoming events</p>
+        <p>Watch out: do not block the reactor !!</p>
+        <pre><code>
+while reactor_running?
+  expired_timers.each {|timer| timer.process }
+  new_network_io.each {|io| io.process }
+end
+        </code></pre>
+        </section>
+      </div>
+
+      <div class="slide vcenter centertext">
+        <h1>... and EventMachine</h1>
+        <section>
+          <div class="center">
+            <p>Reactor pattern (i.e. event driven)</p>
+            <p>+</p>
+            <p>Asynchronous code </p>
+          </div>
         </section>
       </div>
       <div class="slide">
-        <h1>Enters the Reactor</h1>
+        <h1>Spaghetti code !</h1>
         <section>
-        Gimme a rope !
+        Writing evented code is hard ... and ugly !
+        <pre><code>
+db.find_url { |url|
+  http.get(url) { |response|
+    email.send(response) {
+      puts 'email sent'
+    }
+  }
+}
+        </code></pre>
         </section>
       </div>
 
       <div class="slide">
-        <h1>Spaghetti code !</h1>
+        <h1>EM::Synchrony ?</h1>
         <section>
-        Gimme a rope !
+        <div class="small">
+        <pre><code>
+EventMachine.run {
+  page = EventMachine::HttpRequest.new('http://google.com/').get
+  page.errback { p "Google is down! terminate?" }
+  page.callback {
+    about = EventMachine::HttpRequest.new('http://google.com/search?q=eventmachine').get
+    about.callback { # callback nesting, ad infinitum }
+    about.errback  { # error-handling code }
+  }
+}
+        </code></pre>
+        ... + Fibers (on MRI 1.9.x) becomes ...
+        <pre><code>
+EventMachine.synchrony do
+  page = EventMachine::HttpRequest.new("http://www.google.com").get
+  about = EventMachine::HttpRequest.new('http://google.com/search?q=eventmachine').get
+  EventMachine.stop
+end
+        </code></pre>
+        </div>
         </section>
       </div>
+
+      <div class="slide">
+        <h1>Goliath</h1>
+        <section>
+        <ul>
+          <li>Mix EventMachine and EM::Synchrony</li>
+          <li>Let PostRank iterates on this ...</li>
+        </ul>
+        <div class="small">
+        <pre><code>
+require 'goliath'
+
+class Hello < Goliath::API
+  # default to JSON output, allow Yaml as secondary
+  use Goliath::Rack::Render, ['json', 'yaml']
+
+  def response(env)
+    [200, {}, "Hello World"]
+  end
+end
+
+# > ruby hello.rb -sv
+# > [97570:INFO] 2011-02-15 00:33:51 :: Starting server on 0.0.0.0:9000 in development mode. Watch out for stones.
+        </code></pre>
+        </div>
+        </section>
+      </div>
+
     </div>
     <div id="stage"> </div>
+    <script src="../static/js/highlight/highlight.pack.js"></script>
     <script src="../static/js/slides.js"></script>
+    <script type="text/javascript">
+      hljs.initHighlightingOnLoad();
+    </script>
   </body>
 </html>
 
