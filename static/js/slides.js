@@ -92,6 +92,7 @@
     SlideManager.prototype.setCurrent = function(idx) {
       var i, s, _i, _len, _ref, _results;
       this.current = idx;
+      this.setHistory(idx);
       i = 0;
       _ref = this.slides;
       _results = [];
@@ -101,6 +102,12 @@
         _results.push(i += 1);
       }
       return _results;
+    };
+
+    SlideManager.prototype.setHistory = function(idx) {
+      var path;
+      path = window.location.pathname + '#' + (idx + 1);
+      return window.history.pushState({}, null, path);
     };
 
     return SlideManager;

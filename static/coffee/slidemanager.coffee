@@ -38,10 +38,16 @@ class SlideManager
 
   setCurrent: (idx)->
     @current = idx
+    @setHistory( idx )
     i = 0
     for s in @slides
       s.setCurrentOffset(i - idx)
       i += 1
+
+  setHistory: (idx)->
+    path = window.location.pathname + '#' + (idx+1)
+    window.history.pushState({}, null, path)
+
 
 new SlideManager
 
