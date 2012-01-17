@@ -1,6 +1,21 @@
 (function() {
+  var Util;
 
+  Util = (function() {
 
+    function Util() {
+      this.ua = navigator.userAgent;
+      this.isFF = parseFloat(this.ua.split("Firefox/")[1]) || void 0;
+      this.isWK = parseFloat(this.ua.split("WebKit/")[1]) || void 0;
+      this.isOpera = parseFloat(this.ua.split("Opera/")[1]) || void 0;
+      this.transitionEnd = this.isWK ? "webkitTransitionEnd" : this.isFF ? "transitionend" : "OTransitionEnd";
+    }
+
+    return Util;
+
+  })();
+
+  window.Util = Util;
 
 }).call(this);
 (function() {
@@ -8,11 +23,27 @@
 
   Slide = (function() {
 
-    function Slide(dom, manager, index) {
+    function Slide(dom, manager, index, util) {
+      var onTransition, styles, transitionProps;
       this.dom = dom;
       this.manager = manager;
       this.index = index;
+      this.util = util;
+      styles = window.getComputedStyle(dom, null);
+      transitionProps = styles.getPropertyValue('-webkit-transition-property') || styles.getPropertyValue('-moz-transition-property');
+      this.transitionPropertyCount = transitionProps.split(',').length;
+      onTransition = this.onTransition.bind(this);
+      this.dom.addEventListener(this.util.transitionEnd, onTransition, false);
     }
+
+    Slide.prototype.onTransition = function(evt) {
+      if (evt.target === this.dom) {
+        this.transitionFinishedCount += 1;
+        if (this.transitionFinishedCount >= this.transitionPropertyCount) {
+          return this.dispatchEvent();
+        }
+      }
+    };
 
     Slide.prototype.setCurrentOffset = function(offset) {
       if (Math.abs(offset) <= 2) {
@@ -29,7 +60,7 @@
           this.manager.domContent.appendChild(this.dom);
         }
       }
-      return this.dispatchEvent();
+      return this.transitionFinishedCount = 0;
     };
 
     Slide.prototype.dispatchEvent = function() {
@@ -70,6 +101,7 @@
 
     function SlideManager() {
       var domslides, idx, s, _i, _len;
+      this.util = new Util;
       this.slides = [];
       domslides = document.querySelectorAll('.slide');
       this.domStage = document.querySelector('#stage');
@@ -77,12 +109,12 @@
       idx = 0;
       for (_i = 0, _len = domslides.length; _i < _len; _i++) {
         s = domslides[_i];
-        this.slides.push(new Slide(s, this, idx));
+        this.slides.push(new Slide(s, this, idx, this.util));
         idx += 1;
       }
       this.init_events();
-      this.parse_history();
       this.init_slide_in();
+      this.parse_history();
     }
 
     SlideManager.prototype.next = function() {
@@ -113,6 +145,7 @@
       _results = [];
       for (_i = 0, _len = slides.length; _i < _len; _i++) {
         s = slides[_i];
+        s.classList.add('off');
         s.addEventListener('slideIn', function() {
           return s.classList.remove('off');
         }, false);
@@ -128,7 +161,8 @@
       parts = window.location.href.split('#');
       this.current = 0;
       if (parts.length === 2) this.current = parseInt(parts[1]) - 1;
-      return this.setCurrent(this.current);
+      this.setCurrent(this.current);
+      return this.getCurrent().dispatchEvent();
     };
 
     SlideManager.prototype.setCurrent = function(idx) {
@@ -144,6 +178,10 @@
         _results.push(i += 1);
       }
       return _results;
+    };
+
+    SlideManager.prototype.getCurrent = function() {
+      return this.slides[this.current];
     };
 
     SlideManager.prototype.setHistory = function(idx) {

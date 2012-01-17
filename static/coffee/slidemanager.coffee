@@ -1,6 +1,7 @@
 # vim: ts=2 sw=2 et :
 class SlideManager
   constructor: () ->
+    @util = new Util
     @slides = []
     domslides = document.querySelectorAll('.slide')
     @domStage = document.querySelector('#stage')
@@ -8,12 +9,12 @@ class SlideManager
 
     idx = 0
     for s in domslides
-      @slides.push new Slide s, this, idx
+      @slides.push new Slide s, this, idx, @util
       idx += 1
 
     @init_events()
-    @parse_history()
     @init_slide_in()
+    @parse_history()
 
   next: ()->
     @setCurrent( @current + 1 )
@@ -32,6 +33,7 @@ class SlideManager
   init_slide_in: ()->
     slides = document.querySelectorAll('.slide-in')
     for s in slides
+      s.classList.add('off')
       s.addEventListener 'slideIn', () ->
         s.classList.remove('off')
       , false
@@ -46,6 +48,7 @@ class SlideManager
     if parts.length == 2
       @current = parseInt(parts[1])-1;
     @setCurrent( @current )
+    @getCurrent().dispatchEvent();
 
 
   setCurrent: (idx)->
@@ -56,6 +59,8 @@ class SlideManager
       s.setCurrentOffset(i - idx)
       i += 1
 
+  getCurrent: ()->
+    @slides[@current]
   setHistory: (idx)->
     path = window.location.pathname + '#' + (idx+1)
     window.history.pushState({}, null, path)

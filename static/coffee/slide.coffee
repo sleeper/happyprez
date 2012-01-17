@@ -1,6 +1,18 @@
 # vim: ts=2 sw=2 et :
 class Slide
-  constructor: (@dom, @manager, @index) ->
+  constructor: (@dom, @manager, @index, @util) ->
+    styles = window.getComputedStyle(dom, null);
+    transitionProps = styles.getPropertyValue('-webkit-transition-property') ||
+                      styles.getPropertyValue('-moz-transition-property');
+    @transitionPropertyCount = transitionProps.split(',').length;
+    onTransition = @onTransition.bind(this);
+    @dom.addEventListener(@util.transitionEnd, onTransition, false);
+
+  onTransition: (evt)->
+    if (evt.target == @dom)
+      @transitionFinishedCount += 1 
+      if (@transitionFinishedCount >= @transitionPropertyCount)
+        @dispatchEvent()
 
   setCurrentOffset: (offset)->
     # We need to set class only for the 2 slides
@@ -17,10 +29,9 @@ class Slide
     else
       if @dom.parentNode != @manager.domContent
         @manager.domContent.appendChild( @dom )
-    @dispatchEvent()
+    @transitionFinishedCount = 0
 
   dispatchEvent: ()->
-    # FIXME
     evt = document.createEvent('Event')
     evt.slide = this
     if (@dom.classList.contains('current'))
