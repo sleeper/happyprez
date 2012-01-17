@@ -12,7 +12,9 @@ class SlideManager
       idx += 1
 
     @init_events()
-    @init_current()
+    @parse_history()
+#    @init_current()
+    @init_slide_in()
 
   next: ()->
     @setCurrent( @current + 1 )
@@ -27,6 +29,25 @@ class SlideManager
     switch evt.keyCode
       when 37 then @prev()
       when 32, 39 then @next()
+
+  init_slide_in: ()->
+    slides = document.querySelectorAll('.slide-in')
+    for s in slides
+      s.addEventListener 'slideIn', () ->
+        s.classList.remove('off')
+      , false
+      s.addEventListener 'slideOut', ()->
+        s.classList.add('off')
+      , false
+
+
+  parse_history: ()->
+    parts = window.location.href.split('#')
+    @current = 0
+    if parts.length == 2
+      @current = parseInt(parts[1])-1;
+    @setCurrent( @current )
+
 
   init_current: () ->
     @current = 0

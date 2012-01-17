@@ -180,3 +180,16 @@ h1, h2 {
   background: @highlight-color;
   .text-shadow(0 1px 4px #000);
 }
+
+.slide-in section {
+  .box-orient(horizontal);
+  .display-box;
+}
+
+.off .slide-in-left {
+  -webkit-transform: translateX(-400px);
+}
+
+.off .slide-in-right {
+  -webkit-transform: translateX(400px);
+}
