@@ -1,4 +1,9 @@
 (function() {
+
+
+
+}).call(this);
+(function() {
   var Slide;
 
   Slide = (function() {
@@ -18,12 +23,25 @@
         this.setClassIf(offset === -1, 'past');
         this.setClassIf(offset === 0, 'current');
         this.setClassIf(offset === 1, 'future');
-        return this.setClassIf(offset === 2, 'far-future');
+        this.setClassIf(offset === 2, 'far-future');
       } else {
         if (this.dom.parentNode !== this.manager.domContent) {
-          return this.manager.domContent.appendChild(this.dom);
+          this.manager.domContent.appendChild(this.dom);
         }
       }
+      return this.dispatchEvent();
+    };
+
+    Slide.prototype.dispatchEvent = function() {
+      var evt;
+      evt = document.createEvent('Event');
+      evt.slide = this;
+      if (this.dom.classList.contains('current')) {
+        evt.initEvent('slideIn', false, false);
+      } else {
+        evt.initEvent('slideOut', false, false);
+      }
+      return this.dom.dispatchEvent(evt);
     };
 
     Slide.prototype.setClassIf = function(cond, name) {
@@ -32,6 +50,10 @@
       } else {
         return this.dom.classList.remove(name);
       }
+    };
+
+    Slide.prototype.addEventListener = function(evt, callback, cascade) {
+      return this.dom.addEventListener.apply(this.dom, arguments);
     };
 
     return Slide;
@@ -106,11 +128,6 @@
       parts = window.location.href.split('#');
       this.current = 0;
       if (parts.length === 2) this.current = parseInt(parts[1]) - 1;
-      return this.setCurrent(this.current);
-    };
-
-    SlideManager.prototype.init_current = function() {
-      this.current = 0;
       return this.setCurrent(this.current);
     };
 

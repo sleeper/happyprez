@@ -17,12 +17,26 @@ class Slide
     else
       if @dom.parentNode != @manager.domContent
         @manager.domContent.appendChild( @dom )
+    @dispatchEvent()
+
+  dispatchEvent: ()->
+    # FIXME
+    evt = document.createEvent('Event')
+    evt.slide = this
+    if (@dom.classList.contains('current'))
+      evt.initEvent('slideIn', false, false)
+    else
+      evt.initEvent('slideOut', false, false)
+    @dom.dispatchEvent(evt)
 
   setClassIf: (cond, name)->
     if cond
       @dom.classList.add name
     else
       @dom.classList.remove name
+
+  addEventListener: (evt, callback, cascade)->
+    @dom.addEventListener.apply( @dom, arguments)
 
 
 window.Slide = Slide

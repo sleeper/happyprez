@@ -13,7 +13,6 @@ class SlideManager
 
     @init_events()
     @parse_history()
-#    @init_current()
     @init_slide_in()
 
   next: ()->
@@ -48,14 +47,6 @@ class SlideManager
       @current = parseInt(parts[1])-1;
     @setCurrent( @current )
 
-
-  init_current: () ->
-    @current = 0
-    # Check the URL to get the first slide to display
-#    parts = window.location.pathname.split('/slide')
-#    if parts.length == 2
-#      @current = parseInt(parts[1])
-    @setCurrent( @current )
 
   setCurrent: (idx)->
     @current = idx
