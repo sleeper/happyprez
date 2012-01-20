@@ -1,7 +1,8 @@
-@font-face{font-family:'Yanone Kaffeesatz';font-style:normal;font-weight:400;src:url('../fonts/YanoneKaffeesatz-Regular.ttf') format('truetype');}@font-face{font-family:'Permanent Marker';font-style:normal;font-weight:normal;src:local('../fonts/Permanent Marker.woff'),local('../fonts/PermanentMarker.woff'),url('../fonts/PermanentMarker.woff') format('woff');}@font-face{font-family:'Ubuntu';font-style:normal;font-weight:normal;src:local('../fonts/Ubuntu-Regular.woff'),url('../fonts/Ubuntu-Regular.woff') format('woff');}@font-face{font-family:'Lato';font-style:normal;font-weight:400;src:local('../fonts/Lato-Regular.woff'),url('../fonts/Lato-Regular.woff') format('woff');}body,html,#stage{width:100%;height:100%;margin:0;padding:0;font-size:15px;}
-body,html{background-color:#fff;}
+@font-face{font-family:'Yanone Kaffeesatz';font-style:normal;font-weight:400;src:url('../fonts/YanoneKaffeesatz-Regular.ttf') format('truetype');}@font-face{font-family:'Permanent Marker';font-style:normal;font-weight:normal;src:local('../fonts/Permanent Marker.woff'),local('../fonts/PermanentMarker.woff'),url('../fonts/PermanentMarker.woff') format('woff');}@font-face{font-family:'Ubuntu';font-style:normal;font-weight:normal;src:local('../fonts/Ubuntu-Regular.woff'),url('../fonts/Ubuntu-Regular.woff') format('woff');}@font-face{font-family:'Lato';font-style:normal;font-weight:400;src:local('../fonts/Lato-Regular.woff'),url('../fonts/Lato-Regular.woff') format('woff');}body,html,.background,#stage,#background{width:100%;height:100%;margin:0;padding:0;font-size:15px;}
+body,html,#background{background-color:#fff;}
 #content{display:none;}
 #stage{background-color:transparent;margin:0;padding:0;position:relative;-webkit-transform-style:preserve-3d;-moz-transform-style:preserve-3d;z-index:8;width:1150px;height:675px;}
+#background{z-index:7;position:absolute;left:0;top:0;width:100%;height:100%;}
 body{font:30px Arial;background:#000;overflow:hidden;-webkit-perspective:1000px;-moz-perspective:1000px;display:-webkit-box;display:-moz-box;display:-o-box;display:-ms-box;display:box;-webkit-box-pack:center;-moz-box-pack:center;-o-box-pack:center;box-pack:center;-webkit-box-align:center;-moz-box-align:center;-o-box-align:center;box-align:center;}
 .slide{width:1150px;height:675px;position:absolute;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;border-radius:40px;background:#a7dbd8;color:#000000;padding:20px 40px;-webkit-transition:-webkit-transform 0.8s ease-in-out,opacity 1.2s ease-in-out;-moz-transition:-moz-transform 0.8s ease-in-out,opacity 1.2s ease-in-out;box-shadow:0 3px 15px #000;font:30px Arial;}.slide.current{opacity:1;z-index:9;-webkit-transform:translatez(-600px) rotatey(0deg) translatez(600px);-moz-transform:translatez(-600px) rotatey(0deg) translatez(600px);-o-transform:translatez(-600px) rotatey(0deg) translatez(600px);transform:translatez(-600px) rotatey(0deg) translatez(600px);}
 .slide.past{opacity:0.0;-webkit-transform:translatez(-600px) rotatey(-90deg) translatez(600px);-moz-transform:translatez(-600px) rotatey(-90deg) translatez(600px);-o-transform:translatez(-600px) rotatey(-90deg) translatez(600px);transform:translatez(-600px) rotatey(-90deg) translatez(600px);}
@@ -25,6 +26,10 @@ h1,h2{font-size:150%;font-family:'Yanone Kaffeesatz';margin-top:0;}
 .slide-in .slide-in-left{-webkit-transform:translatex(0px);opacity:1;}
 .slide-in.off .slide-in-left{-webkit-transform:translatex(-400px);opacity:0;}
 .slide-in.off .slide-in-right{-webkit-transform:translatex(400px);opacity:0;}
+pre code{border-radius:15px;}
+.background,#stage{background-color:transparent;}
+.background{position:absolute;z-index:1;opacity:0;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;-webkit-transition:opacity 1s ease-in-out;-moz-transition:opacity 1s ease-in-out;transition:opacity 1s ease-in-out;}.background.last{z-index:2;opacity:1;}
+.background.active{z-index:3;opacity:1;display:block;}
 h1{text-align:center;}
 h1 .small{font-size:20%;}
 .huge{font-size:150%;}
@@ -41,3 +46,5 @@ a:link,a:visited,a:hover{text-decoration:none;}
 ul.bullet{list-style:none;padding:0;margin:0;}
 ul.bullet li{padding-left:1em;text-indent:-0.7em;}
 ul.bullet li:before{content:"➪ ";}
+#bg-sumo{-webkit-background-size:contain;-moz-background-size:contain;-o-background-size:contain;background-size:contain;background:url('artwild1x.jpg') bottom no-repeat,#ffffff;}
+#bg-black{background:#000;}

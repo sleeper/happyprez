@@ -35,14 +35,14 @@
   src: local('../fonts/Lato-Regular.woff'), url('../fonts/Lato-Regular.woff') format('woff');
 }
 
-body, html, #stage {
+body, html, .background, #stage, #background {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
   font-size: 15px;
 }
-body, html {
+body, html, #background {
   background-color: #fff;
 }
 
@@ -60,6 +60,16 @@ body, html {
   width: @stage-width;
   height: @stage-height;
 }
+
+#background {
+  z-index: 7;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
 body {
   font: 30px Arial;
   background: #000;
@@ -209,3 +219,31 @@ h1, h2 {
   -webkit-transform: translateX(400px);
   opacity: 0;
 }
+
+pre code {
+  border-radius: 15px;
+}
+
+.background, #stage {
+  background-color: transparent;
+}
+.background {
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  .background-size(cover);
+  .transition(opacity 1s ease-in-out);
+
+  &.last {
+    z-index: 2;
+    opacity: 1;
+  }
+
+  &.active {
+    z-index: 3;
+    opacity: 1;
+    display: block;
+  }
+}
+
+

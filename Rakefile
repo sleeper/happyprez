@@ -5,9 +5,9 @@ namespace :js do
   desc "compile coffee-scripts"
   task :compile do
     File.open "#{File.dirname(__FILE__)}/static/js/slides.js", 'w+' do |js|
-      Dir.foreach("#{File.dirname(__FILE__)}/static/coffee/") do |cf|
-        if /\.coffee$/ =~ cf
-          js.puts CoffeeScript.compile File.read "#{File.dirname(__FILE__)}/static/coffee/#{cf}"
+      Dir.chdir("#{File.dirname(__FILE__)}/static/coffee/") do
+        ['util.coffee', 'background.coffee', 'slide.coffee', 'slidemanager.coffee'].each do |f|
+          js.puts CoffeeScript.compile File.read(f) 
         end
       end
     end

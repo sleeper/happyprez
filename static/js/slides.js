@@ -19,6 +19,32 @@
 
 }).call(this);
 (function() {
+  var Background;
+
+  Background = (function() {
+
+    function Background(dom, manager) {
+      this.dom = dom;
+      this.manager = manager;
+    }
+
+    Background.prototype.dispatchEvent = function() {
+      var evt, slide;
+      evt = document.createEvent('Event');
+      evt.initEvent('backgroundTransitioned', false, false);
+      evt.background = this;
+      slide = this.manager.getCurrent();
+      return slide.dom.dispatchEvent(evt);
+    };
+
+    return Background;
+
+  })();
+
+  window.Background = Background;
+
+}).call(this);
+(function() {
   var Slide;
 
   Slide = (function() {
@@ -34,6 +60,7 @@
       this.transitionPropertyCount = transitionProps.split(',').length;
       onTransition = this.onTransition.bind(this);
       this.dom.addEventListener(this.util.transitionEnd, onTransition, false);
+      this.dom.addEventListener('backgroundTransitioned', this.onBackground, false);
     }
 
     Slide.prototype.onTransition = function(evt) {
@@ -44,6 +71,8 @@
         }
       }
     };
+
+    Slide.prototype.onBackground = function() {};
 
     Slide.prototype.setCurrentOffset = function(offset) {
       if (Math.abs(offset) <= 2) {
@@ -87,6 +116,16 @@
       return this.dom.addEventListener.apply(this.dom, arguments);
     };
 
+    Slide.prototype.getBackgroundId = function() {
+      if (this.dom.dataset && this.dom.dataset.backgroundid) {
+        return this.dom.dataset.backgroundid;
+      } else if (this.dom.hasAttribute('data-backgroundid')) {
+        return this.dom.getAttribute('data-backgroundid');
+      } else {
+        return null;
+      }
+    };
+
     return Slide;
 
   })();
@@ -100,17 +139,26 @@
   SlideManager = (function() {
 
     function SlideManager() {
-      var domslides, idx, s, _i, _len;
+      var b, dombgds, domslides, idx, s, _i, _j, _len, _len2;
       this.util = new Util;
       this.slides = [];
+      this.backgrounds = {};
       domslides = document.querySelectorAll('.slide');
+      dombgds = document.querySelectorAll('.background');
       this.domStage = document.querySelector('#stage');
       this.domContent = document.querySelector('#content');
+      this.domBackground = document.querySelector('#background');
+      this.bgDefault = 'bg-white';
       idx = 0;
       for (_i = 0, _len = domslides.length; _i < _len; _i++) {
         s = domslides[_i];
         this.slides.push(new Slide(s, this, idx, this.util));
         idx += 1;
+      }
+      idx = 0;
+      for (_j = 0, _len2 = dombgds.length; _j < _len2; _j++) {
+        b = dombgds[_j];
+        this.backgrounds[b.id] = new Background(b, this);
       }
       this.init_events();
       this.init_slide_in();
@@ -140,11 +188,16 @@
     };
 
     SlideManager.prototype.init_slide_in = function() {
-      var s, slides, _i, _len, _results;
+      var s, slides, _i, _j, _len, _len2, _ref, _results;
+      _ref = this.slides;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        s = _ref[_i];
+        s.addEventListener('slideIn', this.onSlideIn.bind(this), false);
+      }
       slides = document.querySelectorAll('.slide-in');
       _results = [];
-      for (_i = 0, _len = slides.length; _i < _len; _i++) {
-        s = slides[_i];
+      for (_j = 0, _len2 = slides.length; _j < _len2; _j++) {
+        s = slides[_j];
         s.classList.add('off');
         s.addEventListener('slideIn', function() {
           return s.classList.remove('off');
@@ -154,6 +207,10 @@
         }, false));
       }
       return _results;
+    };
+
+    SlideManager.prototype.onSlideIn = function(evt) {
+      return this.setBackground(this.getBackgroundId(evt.slide.index));
     };
 
     SlideManager.prototype.parse_history = function() {
@@ -188,6 +245,45 @@
       var path;
       path = window.location.pathname + '#' + (idx + 1);
       return window.history.pushState({}, null, path);
+    };
+
+    SlideManager.prototype.setBackground = function(id) {
+      var current, last, next;
+      current = this.backgrounds['active'];
+      next = this.backgrounds[id];
+      if (current !== next) {
+        last = this.backgrounds['last'];
+        if (last) {
+          last.dom.classList.remove('last');
+          this.domContent.appendChild(last.dom);
+          this.backgrounds['last'] = null;
+        }
+        if (current) {
+          current.dom.classList.add('last');
+          this.backgrounds['last'] = current;
+          current.dom.classList.remove('active');
+          this.backgrounds['active'] = null;
+        }
+        if (next) {
+          this.backgrounds['active'] = next;
+          this.domBackground.appendChild(next.dom);
+          return window.setTimeout(function() {
+            return next.dom.classList.add('active');
+          }, 0);
+        }
+      } else {
+        return next.dispatchEvent();
+      }
+    };
+
+    SlideManager.prototype.getBackgroundId = function(idx) {
+      var bgid, i;
+      i = idx;
+      bgid = null;
+      while (!(bgid = this.slides[i].getBackgroundId()) && i >= 0) {
+        i -= 1;
+      }
+      return bgid || this.bgDefault;
     };
 
     return SlideManager;
