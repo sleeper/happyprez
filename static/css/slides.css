@@ -48,3 +48,4 @@ ul.bullet li{padding-left:1em;text-indent:-0.7em;}
 ul.bullet li:before{content:"➪ ";}
 #bg-sumo{-webkit-background-size:contain;-moz-background-size:contain;-o-background-size:contain;background-size:contain;background:url('artwild1x.jpg') bottom no-repeat,#ffffff;}
 #bg-black{background:#000;}
+.title h1{color:#A7DBD8;}
