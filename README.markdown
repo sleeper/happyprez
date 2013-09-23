@@ -1,34 +1,73 @@
 #HappyPrez#
-A simple HTML presentation tool :)
+A too-simple framework to help design and write HTML5 based presentations.
 
-HappyPrez aims at helping you creationg beautiful HTML5 presentation
-easily.
-To do so, it translates an input file, describing both the content of
-you rpresentation as well as its layout, and output your presentation as
-an HTML file.
+## Usage
 
-It relies on a set of templates based on [HTML5Now](http://code.google.com/p/html5wow/).
+You presentation should be enclosed in an HTML file, which includes the `happyprez.js` file.
 
-##Usage##
+A deck of slides is introduced through the `slidedeck` tag, where as each individual slide is introduced by
+a `slide` tag. E.g.:
 
-##Input file##
-Input file is a simple text file, with the following structure:
+```html
+<html>
+<head> My Presentation</head>
+<body>
+  <slidedeck>
+    <slide>
+      Slide 1
+    </slide>
+    <slide>
+      Slide 2
+    </slide>
+    <slide>
+      Slide 3
+    </slide>
+  </slidedeck>
+</body>
+</html>
+```
 
-* Common and general layout of the presentation
-* List of slides
+## Tags
 
-Each slide is introduced by a set of meta-tags (@slide) and can have 
-dedicated styles, transitions, background.
+### slidedeck
 
-The following styles are implemented:
+This tag introduces a new presentation. It should enclose several `slide` tags, that each represent, well, a slide ;)
 
-* transparent: transparent slide
-* centercontent: center content of the slide
-* centertext: center ext on the slide
-* segue
-* image
-* blueprint
-* wide
-* iframe
+#### Attributes
+
+### slide
+
+This tag introduces a new slide with a deck of slide.
+
+#### Attributes
+
+##### background
+
+Indicates the background that will be behind this slide. The value of the attribute is an index (i.e. it will be represented by `#{name of the background}` in the css )
+
+Several background are already defined:
+
+* `white` : plain white background
+* `black` : plain black background
+* `red` : plain red background
+
+Example:
+
+```html
+<slide background="white">
+  ...
+</slide>
+```
+
+##### centercontent
+
+Center the content both vertically and horizontally.
 
 
+##### transparent
+
+Slide will be transparent
+
+##### semi-opaque
+
+Slide will be semi-opaque
